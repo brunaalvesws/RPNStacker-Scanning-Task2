@@ -5,15 +5,15 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 //import .TokenType;
 
-class Regex { //classe adaptada com a classe Token disponibilizada
-	public boolean isNum(String token) {
+class Regex { // classe adaptada com a classe Token disponibilizada
+  public boolean isNum(String token) {
     Pattern pattern = Pattern.compile("[0-9]+");
     Matcher matcher = pattern.matcher(token);
     boolean matchFound = matcher.find();
     return matchFound;
   }
-	
-	public boolean isOP(String token) {
+
+  public boolean isOP(String token) {
     Pattern pattern = Pattern.compile("[-+*/]+");
     Matcher matcher = pattern.matcher(token);
     boolean matchFound = matcher.find();
@@ -22,11 +22,11 @@ class Regex { //classe adaptada com a classe Token disponibilizada
 
 }
 
-class Token { //classe adaptada com a classe Token disponibilizada
+class Token { // classe adaptada com a classe Token disponibilizada
   public int value;
   public Token abaixo;
   public final TokenType type; // token type
-	public final String lexeme; // token value
+  public final String lexeme; // token value
 
   Token(TokenType tktype, String caractere_entrada, int valor) {
     type = tktype;
@@ -36,9 +36,9 @@ class Token { //classe adaptada com a classe Token disponibilizada
   }
 
   @Override
-	public String toString() {
-		return "Token [type=" + this.type + ", lexeme=" + this.lexeme + "]";
-	}
+  public String toString() {
+    return "Token [type=" + this.type + ", lexeme=" + this.lexeme + "]";
+  }
 }
 
 class Stack {
@@ -80,12 +80,12 @@ class UnexpectedCharacter extends Exception {
 
 class Main {
   public static void main(String[] args) throws IOException, UnexpectedCharacter {
-    operate();
     scanning();
     scanningRegex();
+    operate();
   }
 
-  public static void operate () throws IOException, UnexpectedCharacter {
+  public static void operate() throws IOException, UnexpectedCharacter {
     Stack stack = new Stack();
     String file = "teste.txt";
     Scanner scanner = new Scanner(new File(file));
@@ -122,7 +122,7 @@ class Main {
           Token result = new Token(TokenType.NUM, Integer.toString(div), div);
           stack.push(result);
         } else {
-          throw new UnexpectedCharacter("Error: Unexpected character:"+entry);
+          throw new UnexpectedCharacter("Error: Unexpected character:" + entry);
         }
       }
     }
@@ -132,7 +132,7 @@ class Main {
     scanner.close();
   }
 
-  public static void scanning() throws IOException,UnexpectedCharacter {
+  public static void scanning() throws IOException, UnexpectedCharacter {
     Stack stack = new Stack();
     String file = "teste.txt";
     Scanner scanner = new Scanner(new File(file));
@@ -157,26 +157,26 @@ class Main {
           Token op = new Token(TokenType.SLASH, entry, 0);
           stack.push(op);
         } else {
-          throw new UnexpectedCharacter("Error: Unexpected character:"+entry);
+          throw new UnexpectedCharacter("Error: Unexpected character:" + entry);
         }
       }
     }
     scanner.close();
     Token token = stack.topo;
     String[] tokens = new String[stack.size()];
-    int count = stack.size()-1;
-    while (token != null){
+    int count = stack.size() - 1;
+    while (token != null) {
       tokens[count] = token.toString();
       token = token.abaixo;
       count--;
     }
     System.out.println("Scanning result:");
-    for (int i=0; i<tokens.length; i++) {
+    for (int i = 0; i < tokens.length; i++) {
       System.out.println(tokens[i]);
     }
   }
 
-  public static void scanningRegex() throws IOException,UnexpectedCharacter {
+  public static void scanningRegex() throws IOException, UnexpectedCharacter {
     Stack stack = new Stack();
     String file = "teste.txt";
     Scanner scanner = new Scanner(new File(file));
@@ -204,21 +204,21 @@ class Main {
             stack.push(op);
           }
         } else {
-          throw new UnexpectedCharacter("Error: Unexpected character:"+entry);
+          throw new UnexpectedCharacter("Error: Unexpected character:" + entry);
         }
       }
     }
     scanner.close();
     Token token = stack.topo;
     String[] tokens = new String[stack.size()];
-    int count = stack.size()-1;
-    while (token != null){
+    int count = stack.size() - 1;
+    while (token != null) {
       tokens[count] = token.toString();
       token = token.abaixo;
       count--;
     }
     System.out.println("Scanning with regex result:");
-    for (int i=0; i<tokens.length; i++) {
+    for (int i = 0; i < tokens.length; i++) {
       System.out.println(tokens[i]);
     }
   }
